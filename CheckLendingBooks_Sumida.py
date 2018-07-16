@@ -1,9 +1,7 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # CheckLendingBooks_Sumida.py
-import sys
-import os
-import datetime
+import sys, os, datetime
 
 from robobrowser import RoboBrowser
 import time
@@ -15,7 +13,7 @@ SUMIDA_LIB_PW = os.environ['SUMIDA_LIB_PW']
 def fix_unSJIS(tarStr):
     return tarStr.encode("SJIS","ignore").decode('SJIS')
 
-outDir='C:/Users/B3/GoogleDrive/memo/BookRecord/'
+outDir = os.environ['GOOGLE_DRIVE_PATH'].replace("\\","/") + '/memo/BookRecord/'
 description_tmp = "Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private\n"
 line_all = ""
 line_tmp = ""
@@ -54,7 +52,7 @@ for line_item in browser.select('div.infotable'):
 
     # 総合的なファイル用の貸し出しリスト
     line_all += lend + "," + reply + "," + mod_title + "\n"
-    
+
     # 暫定的なファイル用の貸し出しリスト
     line_tmp += mod_title + "\n"
 
@@ -64,5 +62,5 @@ with open(outDir + "LendingBookList.csv", 'a', encoding = "SJIS") as f_all:
 with open(outDir + datetime.date.today().strftime("%Y%m%d")+"_calendar.csv", 'w', encoding = "SJIS") as f_tmp:
     f_tmp.write(description_tmp + '借りてる書籍,' + modDate + ',,' + modDate + ',,TRUE,\"'+ line_tmp +'\",,TRUE') #"
 
-print("\n\n\n30秒ほどポーズ\n")
-time.sleep(30)
+print("\n\n\n10秒ほどポーズ\n")
+time.sleep(10)
